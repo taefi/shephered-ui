@@ -12,36 +12,42 @@ import Project from "Frontend/generated/com/github/taefi/shepherdui/endpoints/sh
 
 export default function HelloReactView() {
   const [name, setName] = useState('');
-  const [data, setData] = useState<Data[]>(new Array<Data>());
+  const [project, setProject] = useState<Project>({});
+  const [projectDescription, setProjectDescription] = useState<string>('');
   const [projects, setProjects] = useState<ProjectView[]>(new Array<ProjectView>());
+  const [selectedProject, setSelectedProject] = useState<ProjectView[]>(new Array<ProjectView>());
 
   useState(async () => {
-      setData(await ShepherdClientEndpoint.getData());
       setProjects(await ShepherdClientEndpoint.getProjects('samuli@vaadin.com'));
   })
-  return (
+
+    return (
     <>
       <section className="flex p-m gap-m items-end">
         <TextField
+            value={projectDescription}
           label="Your name"
-          onValueChanged={(e) => {
-            setName(e.detail.value);
-          }}
         />
         <Button
           onClick={async () => {
-            const serverResponse = await HelloReactEndpoint.sayHello(name);
-
-            setData(((await ShepherdClientEndpoint.getData())));
-            Notification.show(serverResponse);
+              project.description = projectDescription;
+              console.log('project.description='+project.description);
+              console.log('projectDescription='+projectDescription);
+              await ShepherdClientEndpoint.createProject(project);
           }}
         >
           Say hello
         </Button>
 
-          <Grid items={projects}>
-              <GridColumn path="name"></GridColumn>
-              <GridColumn path="org"></GridColumn>
+          <Grid items={projects}
+                selectedItems={selectedProject}
+                onActiveItemChanged={({ detail: { value } }) => {
+                    setProject(value ? value.project ? value.project : {} : {});
+                    setProjectDescription(project.description?project.description:'');
+                    console.log('changed selected items' + project.description);
+                }
+                }
+          >
               <GridColumn header="Project">
                   {({ item }) => <>{item.project.description}</>}
               </GridColumn>
