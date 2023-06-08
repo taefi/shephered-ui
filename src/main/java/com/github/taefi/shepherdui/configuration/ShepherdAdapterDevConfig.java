@@ -10,8 +10,9 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class ShepherdAdapterDevConfig {
 
+    private final static ShepherdClient FAKE = new FakeShepherdClient().withFakeProject();
     @Bean
     public ShepherdClient shepherdClient() {
-        return new FakeShepherdClient();
+        return FAKE;
     }
 }
