@@ -1,7 +1,8 @@
-package com.example.application;
+package com.github.taefi.shepherdui;
 
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
+import dev.hilla.sso.starter.SingleSignOnConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,7 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * and some desktop browsers.
  *
  */
-@SpringBootApplication
+@SpringBootApplication (scanBasePackages = {
+        "com.github.taefi.shepherdui",
+        "dev.hilla.sso.starter" // SSO Kit package.
+})
 @Theme(value = "shepherd-ui")
 public class Application implements AppShellConfigurator {
 

@@ -2,6 +2,7 @@ import HelloReactView from 'Frontend/views/helloreact/HelloReactView.js';
 import MainLayout from 'Frontend/views/MainLayout.js';
 import { lazy } from 'react';
 import { createBrowserRouter, IndexRouteObject, NonIndexRouteObject, useMatches } from 'react-router-dom';
+import { AccessProps } from './useAuth';
 
 const AboutView = lazy(async () => import('Frontend/views/about/AboutView.js'));
 export type MenuProps = Readonly<{
@@ -20,7 +21,8 @@ export type NonIndexViewRouteObject = Override<
     children?: ViewRouteObject[];
   }
 >;
-export type ViewRouteObject = IndexViewRouteObject | NonIndexViewRouteObject;
+// Enrich the ViewRouteObject type with AccessProps.
+export type ViewRouteObject = (IndexViewRouteObject | NonIndexViewRouteObject) & AccessProps;
 
 type RouteMatch = ReturnType<typeof useMatches> extends (infer T)[] ? T : never;
 
@@ -34,7 +36,7 @@ export const routes: readonly ViewRouteObject[] = [
     handle: { icon: 'null', title: 'Main' },
     children: [
       { path: '/', element: <HelloReactView />, handle: { icon: 'globe-solid', title: 'Hello React' } },
-      { path: '/about', element: <AboutView />, handle: { icon: 'file', title: 'About' } },
+      { path: '/about', element: <AboutView />, handle: { icon: 'file', title: 'About' }, requiresLogin: true },
     ],
   },
 ];

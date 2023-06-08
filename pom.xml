@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!-- Project from https://start.vaadin.com/ -->
-    <groupId>com.example.application</groupId>
+    <groupId>com.github.taefi</groupId>
     <artifactId>shepherd-ui</artifactId>
     <name>shepherd-ui</name>
     <version>1.0-SNAPSHOT</version>
@@ -11,15 +11,60 @@
 
     <properties>
         <java.version>17</java.version>
-        <hilla.version>2.0.5</hilla.version>
+        <hilla.version>2.1.0.rc2</hilla.version>
         <selenium.version>4.8.3</selenium.version>
+        <hilla.sso.kit.version>2.1.0.rc1</hilla.sso.kit.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.6</version>
+        <version>3.1.0</version>
     </parent>
+
+    <repositories>
+        <!-- The order of definitions matters. Explicitly defining central here to make sure it has the highest priority. -->
+
+        <!-- Main Maven repository -->
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>vaadin-prereleases</id>
+            <url>
+                https://maven.vaadin.com/vaadin-prereleases/
+            </url>
+        </repository>
+        <!-- Repository used by many Vaadin add-ons -->
+        <repository>
+            <id>Vaadin Directory</id>
+            <url>https://maven.vaadin.com/vaadin-addons</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <!-- The order of definitions matters. Explicitly defining central here to make sure it has the highest priority. -->
+        <pluginRepository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>vaadin-prereleases</id>
+            <url>
+                https://maven.vaadin.com/vaadin-prereleases/
+            </url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencyManagement>
         <dependencies>
@@ -48,6 +93,30 @@
             <version>1.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>dev.hilla</groupId>
+            <artifactId>sso-kit-starter</artifactId>
+            <version>${hilla.sso.kit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.mvysny.shepherd</groupId>
+            <artifactId>shepherd-java-api</artifactId>
+            <version>0.2</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,6 +163,14 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <parser>
+                        <packages>
+                            <package>com.github.taefi.shepherdui</package>
+                            <package>dev.hilla.sso.starter</package>
+                        </packages>
+                    </parser>
+                </configuration>
             </plugin>
         </plugins>
     </build>

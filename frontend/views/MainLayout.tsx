@@ -4,7 +4,10 @@ import { Item } from '@hilla/react-components/Item.js';
 import { Scroller } from '@hilla/react-components/Scroller.js';
 import Placeholder from 'Frontend/components/placeholder/Placeholder.js';
 import { MenuProps, routes, useViewMatches, ViewRouteObject } from 'Frontend/routes.js';
-import { Suspense } from 'react';
+import { logout } from '@hilla/frontend';
+import { Button } from '@hilla/react-components/Button.js';
+import { AuthContext } from 'Frontend/useAuth';
+import { Suspense, useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import css from './MainLayout.module.css';
 
@@ -15,6 +18,18 @@ type MenuRoute = ViewRouteObject &
   }>;
 
 export default function MenuOnLeftLayout() {
+
+  const { state, hasAccess } = useContext(AuthContext);
+
+  async function signOut() {
+      await logout(); // Logout on the server
+      location.href = state.logoutLink!;
+  }
+
+  function signIn() {
+      location.href = state.loginLink;
+  }
+
   const matches = useViewMatches();
 
   const currentTitle = matches[matches.length - 1]?.handle?.title ?? 'Unknown';
@@ -30,7 +45,7 @@ export default function MenuOnLeftLayout() {
       </header>
       <Scroller slot="drawer" scroll-direction="vertical">
         <nav>
-          {menuRoutes.map(({ path, handle: { icon, title } }) => (
+          {menuRoutes.filter(hasAccess).map(({ path, handle: { icon, title } }) => (
             <NavLink
               className={({ isActive }) => `${css.navlink} ${isActive ? css.navlink_active : ''}`}
               key={path}
@@ -56,7 +71,13 @@ export default function MenuOnLeftLayout() {
           ))}
         </nav>
       </Scroller>
-      <footer slot="drawer" />
+
+      <footer slot="drawer">
+        {state.authenticated
+          ? <Button onClick={signOut}>Sign out</Button>
+          : <Button onClick={signIn}>Sign in</Button>
+        }
+      </footer>
 
       <DrawerToggle slot="navbar" aria-label="Menu toggle"></DrawerToggle>
       <h2 slot="navbar" className="text-l m-0">
