@@ -3,6 +3,7 @@ import { UserEndpoint } from "Frontend/generated/endpoints";
 import { useEffect, useState } from "react";
 import {Grid} from "@hilla/react-components/Grid";
 import {GridColumn} from "@hilla/react-components/GridColumn";
+import ProjectView from "Frontend/generated/com/github/taefi/shepherdui/endpoints/shephered/dto/ProjectView";
 
 export default function AboutView() {
 
