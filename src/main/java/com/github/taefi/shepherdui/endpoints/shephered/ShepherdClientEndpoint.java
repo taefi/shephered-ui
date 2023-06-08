@@ -9,12 +9,15 @@ import jakarta.annotation.security.PermitAll;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Endpoint
 @PermitAll
 public class ShepherdClientEndpoint {
+
+    private static final Logger log = Logger.getLogger(ShepherdClientEndpoint.class.getName());
 
     private final ShepherdClient shepherdClient;
 
@@ -25,7 +28,7 @@ public class ShepherdClientEndpoint {
     }
 
     @Nonnull
-    public List<ProjectView> getProjects(String ownerEmail) {
+    public List<@Nonnull ProjectView> getProjects(String ownerEmail) {
         return shepherdClient.getAllProjects(null)
                 .stream().map(projectViewMapper::toDto)
                 .toList();

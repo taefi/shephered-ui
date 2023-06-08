@@ -6,14 +6,18 @@ import { useState } from 'react';
 import {Grid} from "@hilla/react-components/Grid";
 import {GridColumn} from "@hilla/react-components/GridColumn";
 import Data from "Frontend/generated/com/github/taefi/shepherdui/endpoints/shephered/ShepherdClientEndpoint/Data";
+import ProjectView from "Frontend/generated/com/github/taefi/shepherdui/endpoints/shephered/dto/ProjectView";
+import Project from "Frontend/generated/com/github/taefi/shepherdui/endpoints/shephered/dto/Project";
 
 
 export default function HelloReactView() {
   const [name, setName] = useState('');
   const [data, setData] = useState<Data[]>(new Array<Data>());
+  const [projects, setProjects] = useState<ProjectView[]>(new Array<ProjectView>());
 
   useState(async () => {
       setData(await ShepherdClientEndpoint.getData());
+      setProjects(await ShepherdClientEndpoint.getProjects('samuli@vaadin.com'));
   })
   return (
     <>
@@ -35,9 +39,12 @@ export default function HelloReactView() {
           Say hello
         </Button>
 
-          <Grid items={data}>
+          <Grid items={projects}>
               <GridColumn path="name"></GridColumn>
               <GridColumn path="org"></GridColumn>
+              <GridColumn header="Project">
+                  {({ item }) => <>{item.project.description}</>}
+              </GridColumn>
           </Grid>
       </section>
     </>
