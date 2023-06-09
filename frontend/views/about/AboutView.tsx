@@ -9,23 +9,17 @@ export default function AboutView() {
 
     // Store the authenticated user.
     const [user, setUser] = useState<User | undefined>();
-    const [projects, setProjects] = useState<Array<ProjectView>>();
+
     // Fetch the authenticated user from the server.
     useEffect(() => {
         UserEndpoint.getAuthenticatedUser().then(setUser);
-
     }, []);
 
   return (
     <div className="flex flex-col h-full items-center justify-center p-l text-center box-border">
       <img style={{ width: '200px' }} src="images/empty-plant.png" />
-        <p>Username: {user?.preferredUsername}</p>
         <p>Full name: {user?.fullName}</p>
         <p>Email: {user?.email}</p>
     </div>
-      /*<Grid items={fruits}>
-          <GridColumn path="name" />
-          <GridColumn path="quantity" />
-      </Grid>*/
   );
 }

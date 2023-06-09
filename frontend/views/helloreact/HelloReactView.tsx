@@ -1,7 +1,7 @@
 import { Button } from '@hilla/react-components/Button.js';
 import { Notification } from '@hilla/react-components/Notification.js';
 import { TextField } from '@hilla/react-components/TextField.js';
-import {HelloReactEndpoint, ShepherdClientEndpoint} from 'Frontend/generated/endpoints.js';
+import {ShepherdClientEndpoint} from 'Frontend/generated/endpoints.js';
 import { useState } from 'react';
 import {Grid} from "@hilla/react-components/Grid";
 import {GridColumn} from "@hilla/react-components/GridColumn";

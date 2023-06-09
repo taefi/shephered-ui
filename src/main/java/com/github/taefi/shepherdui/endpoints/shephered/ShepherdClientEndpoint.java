@@ -7,7 +7,6 @@ import com.github.taefi.shepherdui.endpoints.shephered.mapper.BaseMapper;
 import dev.hilla.Endpoint;
 import dev.hilla.Nonnull;
 import jakarta.annotation.security.PermitAll;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -22,11 +21,13 @@ public class ShepherdClientEndpoint {
 
     private final ShepherdClient shepherdClient;
 
-    private final BaseMapper.ProjectViewMapper projectViewMapper = Mappers.getMapper(BaseMapper.ProjectViewMapper.class);
-    private final BaseMapper.ProjectMapper projectMapper = Mappers.getMapper(BaseMapper.ProjectMapper.class);
+    private final BaseMapper.ProjectViewMapper projectViewMapper;
+    private final BaseMapper.ProjectMapper projectMapper;
 
-    public ShepherdClientEndpoint(ShepherdClient shepherdClient) {
+    public ShepherdClientEndpoint(ShepherdClient shepherdClient, BaseMapper.ProjectViewMapper projectViewMapper, BaseMapper.ProjectMapper projectMapper) {
         this.shepherdClient = shepherdClient;
+        this.projectViewMapper = projectViewMapper;
+        this.projectMapper = projectMapper;
     }
 
     @Nonnull
@@ -41,14 +42,4 @@ public class ShepherdClientEndpoint {
 //        shepherdClient.createProject(projectMapper.);
     }
 
-    @Nonnull
-    public List<@Nonnull Data> getData() {
-        return IntStream.range(0, 100).mapToObj(i -> new Data("name %d".formatted(i), "org %d".formatted(i))).collect(Collectors.toList());
-    }
-
-    public record Data(
-            String name,
-            String org
-    ) {
-    }
 }
