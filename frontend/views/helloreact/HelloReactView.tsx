@@ -17,6 +17,8 @@ export default function HelloReactView() {
   //Project properties
   const [projectDescription, setProjectDescription] = useState<string>('');
   const [projectWebpage, setProjectWebpage] = useState<string>('');
+  const [owner, setOwner] = useState<string>('');
+  const [ownerEmail, setOwnerEmail] = useState<string>('');
   const [gitUrl, setGitUrl] = useState<string>('');
   const [gitBranch, setGitBranch] = useState<string>('');
 
@@ -29,46 +31,70 @@ export default function HelloReactView() {
   })
 
     return (
-    <section className="flex flex-row">
+    <section className="flex flex-row h-full">
       <section className="flex flex-col p-m gap-m items-end">
         <TextField
+            className="w-full"
             value={projectDescription}
             onValueChanged={e => setProjectDescription(e.detail.value)}
           label="Project description"
         />
           <TextField
+              className="w-full"
               value={projectWebpage}
               onValueChanged={e => setProjectWebpage(e.detail.value)}
               label="Webpage"
           />
-          <TextField
-              value={gitUrl}
-              onValueChanged={e => setGitUrl(e.detail.value)}
-              label="Git url"
-          />
+          <section className="flex flex-row gap-s">
+              <TextField
+                  value={owner}
+                  onValueChanged={e => setOwner(e.detail.value)}
+                  label="Owner"
+              />
+              <TextField
+                  value={owner}
+                  onValueChanged={e => setOwnerEmail(e.detail.value)}
+                  label="Email"
+              />
+          </section>
+          <section className="flex flex-row gap-s">
+              <TextField
+                  value={gitUrl}
+                  onValueChanged={e => setGitUrl(e.detail.value)}
+                  label="Git url"
+              />
 
-          <TextField
-              value={gitBranch}
-              onValueChanged={e => setGitBranch(e.detail.value)}
-              label="Git branch"
-          />
+              <TextField
+                  value={gitBranch}
+                  onValueChanged={e => setGitBranch(e.detail.value)}
+                  label="Git branch"
+              />
+          </section>
         <Button
+            theme="primary"
           onClick={async () => {
               project.description = projectDescription;
               project.webpage = projectWebpage;
+              if (project.projectOwner == undefined) {
+                  project.projectOwner = {};
+              }
               if (project.gitRepo == undefined) {
                   project.gitRepo = {};
               }
               project.gitRepo.branch = gitBranch;
               project.gitRepo.url = gitUrl;
+              project.projectOwner.name = owner;
+              project.projectOwner.email = ownerEmail;
               await ShepherdClientEndpoint.createProject(project);
           }}
         >
-          Create project
+          Create/edit project
         </Button>
       </section>
 
-      <Grid items={projects}
+      <Grid theme="row-stripes"
+            className="h-full"
+            items={projects}
             selectedItems={selectedProject}
             onActiveItemChanged={({ detail: { value } }) => {
                     setProject(value ? value.project ? value.project : {} : {});
@@ -76,6 +102,8 @@ export default function HelloReactView() {
                     setProjectWebpage(project?.webpage || '');
                     setGitUrl(project?.gitRepo?.url || '');
                     setGitBranch(project?.gitRepo?.branch || '');
+                    setOwner(project?.projectOwner?.name || '');
+                    setOwnerEmail(project?.projectOwner?.email || '');
                 }
             }
       >
