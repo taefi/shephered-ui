@@ -4,7 +4,7 @@ import com.github.taefi.shepherdui.endpoints.shephered.dto.ProjectView;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProjectViewMapperImpl implements BaseMapper.ProjectViewMapper {
+public class ProjectViewMapperImpl implements KotlinMapper.ProjectViewMapper {
 
     private final ProjectMapper projectMapper;
     private final BuildMapper buildMapper;
@@ -15,21 +15,21 @@ public class ProjectViewMapperImpl implements BaseMapper.ProjectViewMapper {
     }
 
     @Override
-    public ProjectView toDto(com.github.mvysny.shepherd.api.ProjectView e) {
+    public ProjectView toJava(com.github.mvysny.shepherd.api.ProjectView e) {
         if ( e == null ) {
             return null;
         }
 
         ProjectView projectView = new ProjectView();
 
-        projectView.setProject( projectMapper.toDto( e.getProject() ) );
-        projectView.setLastBuild( buildMapper.toDto( e.getLastBuild() ) );
+        projectView.setProject( projectMapper.toJava( e.getProject() ) );
+        projectView.setLastBuild( buildMapper.toJava( e.getLastBuild() ) );
 
         return projectView;
     }
 
     @Override
-    public com.github.mvysny.shepherd.api.ProjectView toEntity(ProjectView d) {
+    public com.github.mvysny.shepherd.api.ProjectView toKotlin(ProjectView d) {
         return null;
     }
 }

@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Project implements Serializable {
 
-    private ProjectId id;
+    private String id;
     private String description;
     private String webpage;
     private GitRepo gitRepo;
@@ -19,11 +19,11 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public ProjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ProjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

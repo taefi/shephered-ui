@@ -4,10 +4,10 @@ import com.github.taefi.shepherdui.endpoints.shephered.dto.ProjectOwner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProjectOwnerMapperImpl implements BaseMapper.ProjectOwnerMapper {
+public class ProjectOwnerMapperImpl implements KotlinMapper.ProjectOwnerMapper {
 
     @Override
-    public ProjectOwner toDto(com.github.mvysny.shepherd.api.ProjectOwner e) {
+    public ProjectOwner toJava(com.github.mvysny.shepherd.api.ProjectOwner e) {
         if ( e == null ) {
             return null;
         }
@@ -16,7 +16,11 @@ public class ProjectOwnerMapperImpl implements BaseMapper.ProjectOwnerMapper {
     }
 
     @Override
-    public com.github.mvysny.shepherd.api.ProjectOwner toEntity(ProjectOwner d) {
-        return null;
+    public com.github.mvysny.shepherd.api.ProjectOwner toKotlin(ProjectOwner d) {
+        if (d == null) {
+            return null;
+        }
+
+        return new com.github.mvysny.shepherd.api.ProjectOwner(d.getName(), d.getEmail());
     }
 }

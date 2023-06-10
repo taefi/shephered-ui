@@ -4,10 +4,10 @@ import com.github.taefi.shepherdui.endpoints.shephered.dto.Publication;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PublicationMapperImpl implements BaseMapper.PublicationMapper {
+public class PublicationMapperImpl implements KotlinMapper.PublicationMapper {
 
     @Override
-    public Publication toDto(com.github.mvysny.shepherd.api.Publication e) {
+    public Publication toJava(com.github.mvysny.shepherd.api.Publication e) {
         if ( e == null ) {
             return null;
         }
@@ -22,7 +22,12 @@ public class PublicationMapperImpl implements BaseMapper.PublicationMapper {
     }
 
     @Override
-    public com.github.mvysny.shepherd.api.Publication toEntity(Publication d) {
-        return null;
+    public com.github.mvysny.shepherd.api.Publication toKotlin(Publication d) {
+        if (d == null) {
+            return null;
+        }
+
+        return new com.github.mvysny.shepherd.api.Publication(d.isPublishOnMainDomain(),
+                d.isHttps(), d.getAdditionalDomains());
     }
 }

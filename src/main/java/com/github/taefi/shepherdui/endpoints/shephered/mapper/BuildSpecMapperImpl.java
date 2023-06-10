@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class BuildSpecMapperImpl implements BaseMapper.BuildSpecMapper {
+public class BuildSpecMapperImpl implements KotlinMapper.BuildSpecMapper {
 
     private final ResourcesMapper resourcesMapper;
 
@@ -14,17 +14,21 @@ public class BuildSpecMapperImpl implements BaseMapper.BuildSpecMapper {
     }
 
     @Override
-    public BuildSpec toDto(com.github.mvysny.shepherd.api.BuildSpec e) {
+    public BuildSpec toJava(com.github.mvysny.shepherd.api.BuildSpec e) {
         if ( e == null ) {
             return null;
         }
 
-        return new BuildSpec(resourcesMapper.toDto(e.getResources()),
+        return new BuildSpec(resourcesMapper.toJava(e.getResources()),
                 e.getBuildArgs(), e.getDockerFile());
     }
 
     @Override
-    public com.github.mvysny.shepherd.api.BuildSpec toEntity(BuildSpec d) {
-        return null;
+    public com.github.mvysny.shepherd.api.BuildSpec toKotlin(BuildSpec d) {
+        if (d == null) {
+            return null;
+        }
+        return new com.github.mvysny.shepherd.api.BuildSpec(resourcesMapper.toKotlin(d.getResources()),
+                d.getBuildArgs(), d.getDockerFile());
     }
 }

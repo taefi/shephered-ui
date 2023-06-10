@@ -4,9 +4,9 @@ import com.github.taefi.shepherdui.endpoints.shephered.dto.GitRepo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GitRepoMapperImpl implements BaseMapper.GitRepoMapper {
+public class GitRepoMapperImpl implements KotlinMapper.GitRepoMapper {
     @Override
-    public GitRepo toDto(com.github.mvysny.shepherd.api.GitRepo e) {
+    public GitRepo toJava(com.github.mvysny.shepherd.api.GitRepo e) {
         if ( e == null ) {
             return null;
         }
@@ -21,7 +21,11 @@ public class GitRepoMapperImpl implements BaseMapper.GitRepoMapper {
     }
 
     @Override
-    public com.github.mvysny.shepherd.api.GitRepo toEntity(GitRepo d) {
-        return null;
+    public com.github.mvysny.shepherd.api.GitRepo toKotlin(GitRepo d) {
+        if (d == null) {
+            return null;
+        }
+        return new com.github.mvysny.shepherd.api.GitRepo(d.getUrl(),
+                d.getBranch(), d.getCredentialsID());
     }
 }

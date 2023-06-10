@@ -4,10 +4,10 @@ import com.github.taefi.shepherdui.endpoints.shephered.dto.Resources;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ResourceMapperImpl implements BaseMapper.ResourcesMapper {
+public class ResourceMapperImpl implements KotlinMapper.ResourcesMapper {
 
     @Override
-    public Resources toDto(com.github.mvysny.shepherd.api.Resources e) {
+    public Resources toJava(com.github.mvysny.shepherd.api.Resources e) {
         if ( e == null ) {
             return null;
         }
@@ -16,7 +16,11 @@ public class ResourceMapperImpl implements BaseMapper.ResourcesMapper {
     }
 
     @Override
-    public com.github.mvysny.shepherd.api.Resources toEntity(Resources d) {
-        return null;
+    public com.github.mvysny.shepherd.api.Resources toKotlin(Resources d) {
+        if (d == null) {
+            return null;
+        }
+
+        return new com.github.mvysny.shepherd.api.Resources(d.getMemoryMb(), d.getCpu());
     }
 }

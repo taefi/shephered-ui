@@ -4,10 +4,10 @@ import com.github.taefi.shepherdui.endpoints.shephered.dto.Service;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ServiceMapperImpl implements BaseMapper.ServiceMapper {
+public class ServiceMapperImpl implements KotlinMapper.ServiceMapper {
 
     @Override
-    public Service toDto(com.github.mvysny.shepherd.api.Service e) {
+    public Service toJava(com.github.mvysny.shepherd.api.Service e) {
         if ( e == null ) {
             return null;
         }
@@ -16,7 +16,11 @@ public class ServiceMapperImpl implements BaseMapper.ServiceMapper {
     }
 
     @Override
-    public com.github.mvysny.shepherd.api.Service toEntity(Service d) {
-        return null;
+    public com.github.mvysny.shepherd.api.Service toKotlin(Service d) {
+        if (d == null) {
+            return null;
+        }
+
+        return new com.github.mvysny.shepherd.api.Service(d.getServiceType());
     }
 }

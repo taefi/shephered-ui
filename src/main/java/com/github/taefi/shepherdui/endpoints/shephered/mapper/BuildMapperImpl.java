@@ -4,10 +4,10 @@ import com.github.taefi.shepherdui.endpoints.shephered.dto.Build;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BuildMapperImpl implements BaseMapper.BuildMapper {
+public class BuildMapperImpl implements KotlinMapper.BuildMapper {
 
     @Override
-    public Build toDto(com.github.mvysny.shepherd.api.Build e) {
+    public Build toJava(com.github.mvysny.shepherd.api.Build e) {
         if ( e == null ) {
             return null;
         }
@@ -24,7 +24,7 @@ public class BuildMapperImpl implements BaseMapper.BuildMapper {
     }
 
     @Override
-    public com.github.mvysny.shepherd.api.Build toEntity(Build d) {
+    public com.github.mvysny.shepherd.api.Build toKotlin(Build d) {
         return null;
     }
 }
