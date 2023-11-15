@@ -1,19 +1,23 @@
-package com.github.taefi.shepherdui.endpoints.shephered;
+package com.github.taefi.shepherdui.service;
 
 import com.github.mvysny.shepherd.api.ShepherdClient;
-import com.github.taefi.shepherdui.endpoints.shephered.dto.Project;
+import com.github.taefi.shepherdui.endpoints.shephered.ShepherdClientEndpoint;
 import com.github.taefi.shepherdui.endpoints.shephered.dto.ProjectView;
 import com.github.taefi.shepherdui.endpoints.shephered.mapper.KotlinMapper;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.BrowserCallable;
 import dev.hilla.Nonnull;
-import jakarta.annotation.security.PermitAll;
+import dev.hilla.Nullable;
+import dev.hilla.crud.ListService;
+import dev.hilla.crud.filter.Filter;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.logging.Logger;
 
+@AnonymousAllowed
 @BrowserCallable
-@PermitAll
-public class ShepherdClientEndpoint {
+public class ProjectViewService implements ListService<ProjectView> {
 
     private static final Logger log = Logger.getLogger(ShepherdClientEndpoint.class.getName());
 
@@ -22,24 +26,18 @@ public class ShepherdClientEndpoint {
     private final KotlinMapper.ProjectViewMapper projectViewMapper;
     private final KotlinMapper.ProjectMapper projectMapper;
 
-    public ShepherdClientEndpoint(ShepherdClient shepherdClient, KotlinMapper.ProjectViewMapper projectViewMapper, KotlinMapper.ProjectMapper projectMapper) {
+
+    public ProjectViewService(ShepherdClient shepherdClient, KotlinMapper.ProjectViewMapper projectViewMapper, KotlinMapper.ProjectMapper projectMapper) {
         this.shepherdClient = shepherdClient;
         this.projectViewMapper = projectViewMapper;
         this.projectMapper = projectMapper;
     }
 
     @Nonnull
-    public List<@Nonnull ProjectView> getProjects(@Nonnull String ownerEmail) {
-        return shepherdClient.getAllProjects(ownerEmail.isBlank() ? null : ownerEmail)
+    @Override
+    public List<@Nonnull ProjectView> list(Pageable pageable, @Nullable Filter filter) {
+        return shepherdClient.getAllProjects(null)
                 .stream().map(projectViewMapper::toJava)
                 .toList();
     }
-
-    public void createProject(@Nonnull Project project) {
-        log.info("Creating project...");
-        project.setId("test-" + System.currentTimeMillis());
-        shepherdClient.createProject(projectMapper.toKotlin(project));
-        log.info("Project created!");
-    }
-
 }

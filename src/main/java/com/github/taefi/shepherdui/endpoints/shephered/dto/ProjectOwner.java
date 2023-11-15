@@ -1,11 +1,17 @@
 package com.github.taefi.shepherdui.endpoints.shephered.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 public class ProjectOwner implements Serializable {
 
+    @NotBlank
     private String name;
+    @NotBlank
+    @Email
     private String email;
 
     public ProjectOwner() {

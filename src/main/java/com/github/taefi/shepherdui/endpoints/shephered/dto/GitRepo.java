@@ -1,11 +1,17 @@
 package com.github.taefi.shepherdui.endpoints.shephered.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.URL;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 public class GitRepo implements Serializable {
 
+    @NotBlank
     private String url;
+    @NotBlank
     private String branch;
     private String credentialsID;
 

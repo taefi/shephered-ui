@@ -1,5 +1,6 @@
 package com.github.taefi.shepherdui.endpoints.shephered.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mvysny.shepherd.api.BuildResult;
 
 import java.io.Serializable;
@@ -10,18 +11,18 @@ import java.util.Objects;
 public class Build implements Serializable {
 
     private int number;
-    private Duration duration;
-    private Duration estimatedDuration;
+    private Long durationInSeconds;
+    private Long estimatedDurationInSeconds;
     private Instant buildStarted;
     private BuildResult outcome;
 
     public Build() {
     }
 
-    public Build(int number, Duration duration, Duration estimatedDuration, Instant buildStarted, BuildResult outcome) {
+    public Build(int number, Long durationInSeconds, Long estimatedDurationInSeconds, Instant buildStarted, BuildResult outcome) {
         this.number = number;
-        this.duration = duration;
-        this.estimatedDuration = estimatedDuration;
+        this.durationInSeconds = durationInSeconds;
+        this.estimatedDurationInSeconds = estimatedDurationInSeconds;
         this.buildStarted = buildStarted;
         this.outcome = outcome;
     }
@@ -34,20 +35,20 @@ public class Build implements Serializable {
         this.number = number;
     }
 
-    public Duration getDuration() {
-        return duration;
+    public Long getDuration() {
+        return durationInSeconds;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setDuration(Long durationInSeconds) {
+        this.durationInSeconds = durationInSeconds;
     }
 
-    public Duration getEstimatedDuration() {
-        return estimatedDuration;
+    public Long getEstimatedDuration() {
+        return estimatedDurationInSeconds;
     }
 
-    public void setEstimatedDuration(Duration estimatedDuration) {
-        this.estimatedDuration = estimatedDuration;
+    public void setEstimatedDuration(Long estimatedDurationInSeconds) {
+        this.estimatedDurationInSeconds = estimatedDurationInSeconds;
     }
 
     public Instant getBuildStarted() {
@@ -71,7 +72,7 @@ public class Build implements Serializable {
     }
 
     public Instant getBuildEnded() {
-        return isCompleted() ? buildStarted.plus(duration) : null;
+        return isCompleted() ? buildStarted.plusSeconds(estimatedDurationInSeconds) : null;
     }
 
     @Override

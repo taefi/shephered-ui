@@ -1,12 +1,16 @@
 package com.github.taefi.shepherdui.endpoints.shephered.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Project implements Serializable {
 
     private String id;
+    @NotBlank
     private String description;
     private String webpage;
     private GitRepo gitRepo;
@@ -88,7 +92,7 @@ public class Project implements Serializable {
     }
 
     public void setAdditionalServices(Set<Service> additionalServices) {
-        this.additionalServices = additionalServices;
+        this.additionalServices = Optional.ofNullable(additionalServices).orElse(Set.of());
     }
 
     @Override
